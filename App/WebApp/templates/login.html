@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <h1 class="mb-4 text-center">Авторизация</h1>
+
+            <!-- Flash-сообщения (ошибка доступа или неверный логин) -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Форма авторизации -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Логин</label>
+                            <input type="text"
+                                class="form-control"
+                                id="username"
+                                name="username"
+                                value="{{ request.form.username if request.form else '' }}"
+                                placeholder="user"
+                                required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Пароль</label>
+                            <input type="password"
+                                   class="form-control"
+                                   id="password"
+                                   name="password"
+                                   placeholder="qwerty"
+                                   required>
+                        </div>
+                        <div class="mb-4 form-check">
+                            <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">
+                                Запомнить меня
+                            </label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Отображение параметров формы после отправки -->
+            {% if form_data %}
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Параметры формы (отправленные данные)</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>Поле</th>
+                                <th>Значение</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>username</code></td>
+                                <td>{{ form_data.username }}</td>
+                            </tr>
+                            <tr>
+                                <td><code>password</code></td>
+                                <td>{{ form_data.password }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

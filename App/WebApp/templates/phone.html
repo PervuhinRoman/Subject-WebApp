@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <h1 class="mb-4 text-center">Проверка номера телефона</h1>
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('phone') }}">
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Номер телефона</label>
+                            <input type="text"
+                                   class="form-control {% if error %}is-invalid{% elif formatted %}is-valid{% endif %}"
+                                   id="phone"
+                                   name="phone"
+                                   placeholder="+7 (123) 456-78-90"
+                                   value="{{ phone_input }}">
+
+                            <!-- Сообщение об ошибке -->
+                            {% if error %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endif %}
+
+                            <div class="form-text text-muted">
+                                Допустимые форматы: +7 (123) 456-75-90, 8(123)4567590, 123.456.75.90
+                            </div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Проверить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Результат: отформатированный номер -->
+            {% if formatted %}
+            <div class="card mt-4 border-success">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">✅ Номер телефона принят</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h3 class="text-success mb-0">{{ formatted }}</h3>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

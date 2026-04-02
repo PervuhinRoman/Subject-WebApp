@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% macro render_field(field) %}
+<div class="mb-3">
+    {{ field.label(class="form-label") }}
+    {% if field.errors %}
+        {{ field(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+            {% for error in field.errors %}
+                {{ error }}<br>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ field(class="form-control") }}
+    {% endif %}
+</div>
+{% endmacro %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <h2>{{ title }}</h2>
+        
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            
+            {% if mode == 'create' %}
+            {{ render_field(form.login) }}
+            {{ render_field(form.password) }}
+            {% endif %}
+            
+            {{ render_field(form.last_name) }}
+            {{ render_field(form.first_name) }}
+            {{ render_field(form.middle_name) }}
+            {{ render_field(form.role_id) }}
+            
+            <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
